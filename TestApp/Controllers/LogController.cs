@@ -1,31 +1,73 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
+using TestApp.Model;
 
 namespace TestApp.Controllers
 {
     [ApiController]
     public class LogController : ControllerBase
     {
-        private readonly ILogger _logger;
+        private AppLogger _appLogger;
+        //private readonly ILogger _logger;
+        private readonly IServiceProvider _serviceProvider;
 
-        public LogController(ILogger<LogController> logger)
+        //public LogController(ILogger<LogController> logger, IServiceProvider serviceProvider)
+        //{
+        //    _logger = logger;
+        //    _serviceProvider = serviceProvider;
+        //}
+        public LogController(IServiceProvider serviceProvider)
         {
-            _logger = logger;
+            _serviceProvider = serviceProvider;
         }
 
-        [HttpGet("WriteLog")]
-        public IActionResult WriteLog()
+        [HttpGet("SaveLogToDb")]
+        public IActionResult SaveLogToDb()
         {
+            var specificLogger = _serviceProvider.GetService(typeof(ILogger<LogController>)) as ILogger<LogController>;
+
+            _appLogger = new AppLogger(new DbLogger(specificLogger));
             try
             {
-                _logger.LogInformation("Test log message for practicing Dependency Inversion Principal");
-                return Ok();
-            }
-            catch (Exception)
-            {
+                if (1 == 2)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    throw new Exception();
+                }
 
+            }
+            catch (Exception ex)
+            {
+                _appLogger.LogException(ex);
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("WriteLogToTextFile")]
+        public IActionResult WriteLogToTextFile()
+        {
+            var specificLogger = _serviceProvider.GetService(typeof(ILogger<LogController>)) as ILogger<LogController>;
+
+            _appLogger = new AppLogger(new FileLogger(specificLogger));
+            try
+            {
+                if (1 == 2)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _appLogger.LogException(ex);
                 return BadRequest();
             }
         }
