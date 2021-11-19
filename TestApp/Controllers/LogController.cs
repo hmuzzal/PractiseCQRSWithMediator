@@ -9,14 +9,8 @@ namespace TestApp.Controllers
     public class LogController : ControllerBase
     {
         private AppLogger _appLogger;
-        //private readonly ILogger _logger;
         private readonly IServiceProvider _serviceProvider;
 
-        //public LogController(ILogger<LogController> logger, IServiceProvider serviceProvider)
-        //{
-        //    _logger = logger;
-        //    _serviceProvider = serviceProvider;
-        //}
         public LogController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;

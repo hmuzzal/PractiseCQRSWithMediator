@@ -18,7 +18,7 @@ namespace TestApp.Model
 
         private static string GetUserReadableMessage(Exception ex)
         {
-            return ex.ToString();
+            return ex.Message.ToString();
         }
     }
 }
