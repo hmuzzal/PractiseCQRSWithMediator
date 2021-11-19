@@ -1,11 +1,9 @@
-﻿using TestApp.Context;
-using TestApp.Model;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using TestApp.Context;
+using TestApp.Model;
 
 namespace TestApp.Features.Queries
 {
@@ -21,10 +19,10 @@ namespace TestApp.Features.Queries
                 _context = context;
             }
 
-            public async Task<Product> Handle(GetProductByIdQuery query, CancellationToken cancellationToken00)
+            public Task<Product> Handle(GetProductByIdQuery query, CancellationToken cancellationToken00)
             {
                 var product = _context.Products.FirstOrDefault(p => p.Id == query.Id);
-                return product ?? null;
+                return Task.FromResult(product ?? null);
             }
         }
     }
