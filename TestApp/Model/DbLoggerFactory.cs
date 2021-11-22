@@ -1,6 +1,6 @@
 ﻿namespace TestApp.Model
 {
-    public class LoggerFactory
+    public partial class LoggerFactory
     {
     }
 }

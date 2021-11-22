@@ -53,13 +53,9 @@ namespace TestApp.Controllers
         [HttpGet(nameof(GetResult))]
         public IActionResult GetResult()
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            //HttpContext.GetTokenAsync("access_token");
-            IEnumerable<Claim> claims = new List<Claim>();
-
-            if (identity != null)
+            if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
-                claims = identity.Claims;
+                var claims = identity.Claims;
                 var expiresOn = claims.FirstOrDefault(c => c.Type == "ExpiresOn")?.Value;
             }
             return Ok("API Authenticated");
@@ -71,7 +67,6 @@ namespace TestApp.Controllers
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             var expiresOn = "";
-            //HttpContext.GetTokenAsync("access_token");
             IEnumerable<Claim> claims = new List<Claim>();
 
             if (identity != null)

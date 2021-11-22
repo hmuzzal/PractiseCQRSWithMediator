@@ -10,7 +10,6 @@ namespace TestApp.Controllers
     {
         private AppLogger _appLogger;
         private readonly IServiceProvider _serviceProvider;
-
         public LogController(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -19,6 +18,7 @@ namespace TestApp.Controllers
         [HttpGet("SaveLogToDb")]
         public IActionResult SaveLogToDb()
         {
+
             var specificLogger = _serviceProvider.GetService(typeof(ILogger<LogController>)) as ILogger<LogController>;
 
             _appLogger = new AppLogger(new DbLogger(specificLogger));
